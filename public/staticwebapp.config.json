@@ -1,0 +1,13 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  },
+  "mimeTypes": {
+    ".js": "text/javascript",
+    ".mjs": "text/javascript",
+    ".jsx": "text/javascript"
+  },
+  "globalHeaders": {
+    "Cache-Control": "no-cache"
+  }
+}
