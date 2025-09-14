@@ -24,8 +24,4 @@ resource "azurerm_static_web_app" "main" {
   name                = local.service_name
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-
-  app_settings = {
-    "VITE_API_BASE_URL" = var.api_base_url
-  }
 }

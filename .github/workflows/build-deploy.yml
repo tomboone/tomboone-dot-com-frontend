@@ -16,7 +16,6 @@ env:
   TF_VAR_location: ${{ secrets.LOCATION }}
   TF_VAR_log_analytics_workspace_name: ${{ secrets.LOG_ANALYTICS_WORKSPACE_NAME }}
   TF_VAR_log_analytics_workspace_rg_name: ${{ secrets.LOG_ANALYTICS_WORKSPACE_RG_NAME }}
-  TF_VAR_api_base_url: ${{ secrets.API_BASE_URL }}
   TF_WORKING_DIR: ./terraform
 
 jobs:
@@ -83,6 +82,7 @@ jobs:
         run: npm run build
         env:
           CI: false
+          VITE_API_BASE_URL: ${{ secrets.API_BASE_URL }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

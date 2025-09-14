@@ -11,8 +11,3 @@ variable "log_analytics_workspace_rg_name" {
   type        = string
   description = "Resource group of the existing log analytics workspace"
 }
-
-variable "api_base_url" {
-  type = string
-  description = "Base URL of the backend API"
-}
