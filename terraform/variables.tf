@@ -1,17 +1,13 @@
 variable "location" {
+  type        = string
   description = "Azure region for resources"
-  type        = string
-  default     = "East US"
 }
+ variable "log_analytics_workspace_name" {
+   type        = string
+   description = "Existing log analytics workspace to use"
+ }
 
-variable "environment" {
-  description = "Environment name"
+variable "log_analytics_workspace_rg_name" {
   type        = string
-  default     = "production"
-}
-
-variable "custom_domain" {
-  description = "Custom domain name (optional)"
-  type        = string
-  default     = null
+  description = "Resource group of the existing log analytics workspace"
 }

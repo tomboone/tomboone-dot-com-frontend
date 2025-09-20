@@ -1,45 +1,27 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~>4.45"
-    }
-  }
+locals {
+  service_name = "tomboone-dot-com-frontend"
 }
 
-provider "azurerm" {
-  features {}
+data "azurerm_log_analytics_workspace" "existing" {
+  name                = var.log_analytics_workspace_name
+  resource_group_name = var.log_analytics_workspace_rg_name
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = "rg-tomboone-frontend"
-  location = "East US"
+  name     = "${local.service_name}-rg"
+  location = var.location
 }
 
-resource "azurerm_static_site" "main" {
-  name                = "swa-tomboone-frontend"
+resource "azurerm_application_insights" "main" {
+  name                = "${local.service_name}-insights"
   resource_group_name = azurerm_resource_group.main.name
-  location           = azurerm_resource_group.main.location
-  sku_tier           = "Free"
-  sku_size           = "Free"
-
-  tags = {
-    environment = "production"
-    project     = "tomboone-frontend"
-  }
+  location            = azurerm_resource_group.main.location
+  workspace_id        = data.azurerm_log_analytics_workspace.existing.id
+  application_type    = "web"
 }
 
-# Optional: Custom domain
-resource "azurerm_static_site_custom_domain" "main" {
-  static_site_id  = azurerm_static_site.main.id
-  domain_name     = "tomboone.com"
-  validation_type = "cname-delegation"
-}
-
-output "static_web_app_url" {
-  value = azurerm_static_site.main.default_host_name
-}
-
-output "static_web_app_id" {
-  value = azurerm_static_site.main.id
+resource "azurerm_static_web_app" "main" {
+  name                = local.service_name
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
 }
